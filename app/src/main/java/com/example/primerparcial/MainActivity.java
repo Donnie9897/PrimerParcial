@@ -7,19 +7,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.List;
+import com.example.primerparcial.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static ArrayAdapter<Object> layoutAdapter;
+    public static LayoutAdapter layoutAdapter;
     RecyclerView recycler;
 
     public static ArrayList<Producto> productos  = new ArrayList<Producto>();
-    private RecyclerAdapter adapter;
+   // private RecyclerAdapter adapter;
+
 
     private String nombre;
     private String descripcion;
@@ -27,42 +28,31 @@ public class MainActivity extends AppCompatActivity {
     private Button btn;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-            Intent intent = getIntent();
-            binding = ActivityMainBinding.inflate(getLayoutInflater());
-            setContentView(binding.getRoot());
-            recycler = binding.recycler;
-            layoutAdapter = new ArrayAdapter<Object>(this, productos);
+            //Intent intent = getIntent();
+           // binding = ActivityMainBinding.inflate(getLayoutInflater());
+           // setContentView(binding.getRoot());
+           // recycler = binding.recycler;
 
-            nombre = getIntent().getStringExtra("Nombre");
-            descripcion = getIntent().getStringExtra("Descripcion");
-            // precio = getIntent().getIntExtra("Precio");
-            precio = 1; //debuggeando la variable precio porque no quiere obtener el valor
+            layoutAdapter = new LayoutAdapter(this, productos);
             btn = findViewById(R.id.button);
 
             productos = new ArrayList<Producto>();
 
-            adapter = new RecyclerAdapter(productos);
-/*
-            for (int i = 0;  i <= 100; i++){
-                productos.add(new Producto(nombre, descripcion, precio));
-            }*/
-
+            //adapter = new RecyclerAdapter(productos);
             recycler = recycler.findViewById(R.id.recyclerMain);
-
-            btn.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-
-                    startActivity(intent);
-                }
-                });
+            recycler.setAdapter(layoutAdapter);
 
 
+    }
+
+    public void IntentCall(View view){
+        Intent intent = new Intent(this, Activity.class);
+
+        startActivity(intent);
     }
 }
